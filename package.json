@@ -1,0 +1,83 @@
+{
+  "name": "test-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "xo && NODE_ENV=test ava --verbose",
+    "test:cobertura": "NODE_ENV=test nyc ava"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jorma16/test-practice.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jorma16/test-practice/issues"
+  },
+  "homepage": "https://github.com/jorma16/test-practice#readme",
+  "devDependencies": {
+    "ava": "0.25.0",
+    "mockery": "^2.1.0",
+    "nyc": "11.4.1",
+    "sinon": "4.3.0",
+    "supertest": "^3.0.0",
+    "xo": "0.18.2"
+  },
+  "ava": {
+    "files": [
+      "**/*.spec.js"
+    ],
+    "concurrency": 5,
+    "failFast": true,
+    "failWithoutAssertions": false,
+    "powerAssert": false
+  },
+  "nyc": {
+    "exclude": [
+      "**/*.spec.js",
+      "**/*.mock.js"
+    ]
+  },
+  "xo": {
+    "space": true,
+    "rules": {
+      "no-unused-vars": [
+        "error",
+        {
+          "ignoreRestSiblings": true,
+          "args": "none"
+        }
+      ],
+      "no-warning-comments": [
+        0
+      ],
+      "arrow-parens": [
+        "error",
+        "always"
+      ],
+      "object-shorthand": [
+        "off"
+      ],
+      "object-curly-spacing": [
+        "error",
+        "always"
+      ]
+    },
+    "settings": {
+      "import/resolver": {
+        "node": {
+          "paths": [
+            "./"
+          ]
+        }
+      }
+    }
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "express": "^4.16.2"
+  }
+}

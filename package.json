@@ -20,6 +20,10 @@
   "homepage": "https://github.com/jorma16/test-practice#readme",
   "devDependencies": {
     "ava": "0.25.0",
+    "mockery": "^2.1.0",
+    "nyc": "11.4.1",
+    "sinon": "4.3.0",
+    "supertest": "^3.0.0",
     "xo": "0.18.2"
   },
   "ava": {
@@ -73,6 +77,7 @@
     }
   },
   "dependencies": {
-    "nyc": "11.4.1"
+    "axios": "^0.17.1",
+    "express": "^4.16.2"
   }
 }

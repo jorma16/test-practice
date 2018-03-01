@@ -82,11 +82,13 @@ las anteriores la documentación es muy extensa y su uso, sencillo.
 // index.js
 
 // mongoose model
-const { User } = require('./user.model');
+const User = require('./user.model');
 
 async function getMyUser() {
   return User.findOne({ _id: 1234 });
 }
+
+module.exports = { getMyUser };
 ```
 ```
 // user.mock.js
@@ -103,6 +105,8 @@ const User = {
   }
 }
 
+module.exports = User;
+
 // index.spec.js
 const test = require('ava');
 const mockery = require('mockery');
@@ -114,6 +118,53 @@ mockery.enable({
   useCleanCache: true
 });
 
+test.beforeEach(() => {
+  mockery.deregisterAll();
+  mockery.resetCache();
+});
 
+test.after(() => {
+  mockery.resetCache();
+  mockery.deregisterAll();
+});
+
+test('It returns the correct user', (t) => {
+  const modelMock = require('./user.mock');
+
+  mockery.registerMock('./user.model', modelMock);
+
+  const service = require('./index');
+  const data = await service.getMyUser();
+  t.is(...);
+});
+```
+
+Y por último tenemos supertest que es una herramienta más para test de integración que unitario, ya que su finalidad es comprobar el correcto funcionamiento de toda la aplicación, haciendole alguna llamada al API y comprobando que todo funciona correctamente.
+
+```
+// server.js
+const express = require('express');
+
+const app = express();
+
+app.get('/', (req, res) => {
+  res.send({ hello: 'world' });
+});
+
+app.listen(3000);
+
+module.exports = app;
+```
+```
+// server.spec.js
+
+const test = require('ava');
+const request = require('supertest');
+
+test('GET / (200) and correct response', async (t) => {
+  const app = require('./server');
+
+  await request(app).get('/').expect(200);
+});
 ```
 

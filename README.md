@@ -74,3 +74,46 @@ test('It works', (t) => {
   t.deepEqual(expectedReturnSpy, spy.returnValues[0]);
 });
 ```
+
+Mockery se utiliza para falsear librerias externas que por ejemplo
+interaccionan con terceros, como bases de datos, APIS, al igual que
+las anteriores la documentación es muy extensa y su uso, sencillo.
+```
+// index.js
+
+// mongoose model
+const { User } = require('./user.model');
+
+async function getMyUser() {
+  return User.findOne({ _id: 1234 });
+}
+```
+```
+// user.mock.js
+const User = {
+  findOne: (query) => {
+    if (query._id === 1234) {
+      return {
+        _id: 1234,
+        user: 'avantio'
+      }
+    }
+
+    return {};
+  }
+}
+
+// index.spec.js
+const test = require('ava');
+const mockery = require('mockery');
+const UserMock = require('./user.mock');
+
+mockery.enable({
+  warnOnReplace: false,
+  warnOnUnregistered: false,
+  useCleanCache: true
+});
+
+
+```
+
